@@ -1,27 +1,26 @@
 package com.walletmanagement.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import com.walletmanagement.entities.User;
 import com.walletmanagement.repository.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MainController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     
     @GetMapping("/login")
@@ -30,34 +29,28 @@ public class MainController {
     }
 
 
-
-    @PostMapping("/login")
-    public String processLogin(Model model, User loginRequest) {
-        String email = loginRequest.getEmail();
-        String password = loginRequest.getPassword();
-
-        // Retrieve user by email from the database
-        User user = userRepository.findByEmail(email);
-
-        // Check if the user exists and if the password matches
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            // Authentication successful, redirect to the dashboard
-            return "redirect:/?firstName=" + user.getFirstName();
-        } else {
-            // Authentication failed, return error message to the login page
-            model.addAttribute("error", "Invalid email or password");
-            return "redirect:/login?error";
-        }
-    }
-
     @GetMapping("/")
-    public String home(Model model, @RequestParam(name = "firstName", required = false) String firstName) {
-        if (firstName != null) {
-            model.addAttribute("firstName", "Welcome, " + firstName + "!");
+    public String home(Model model, HttpSession session) {
+         // Retrieve authenticated user's details
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                String email = ((UserDetails) principal).getUsername();
+                User user = userRepository.findByEmail(email);
+                model.addAttribute("firstName", "Welcome, " + user.getFirstName() + "!");
+            } else {
+                model.addAttribute("firstName", "Welcome!");
+            }
         } else {
             model.addAttribute("firstName", "Welcome!");
         }
-        return "index";
+    return "index";
+    }
+
+    @PostMapping("/")
+    public String handlePostRequest(Model model) {
+        return "redirect:/"; // Redirect to the root endpoint after processing the POST request
     }
 
     @GetMapping("/logout")

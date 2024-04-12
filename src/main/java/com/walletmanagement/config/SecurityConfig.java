@@ -12,6 +12,8 @@ import org.springframework.security.web.access.expression.DefaultWebSecurityExpr
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
@@ -34,15 +36,22 @@ public class SecurityConfig {
             .build();
     }
 
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
+
     @Bean
     public SecurityFilterChain configure(final HttpSecurity http) throws Exception {
         return http.cors(withDefaults())
                 .csrf(withDefaults())
-                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+                .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/login").permitAll()
+                .anyRequest().permitAll())
                 .formLogin(form -> form
                     .loginPage("/login")
                     .usernameParameter("email")
-                    .failureUrl("/login?loginError=true"))
+                    .successForwardUrl("/")
+                   .failureHandler(customAuthenticationFailureHandler))
                 .logout(logout -> logout
                     .logoutUrl("/logout.html")
                     .logoutSuccessUrl("/login?logoutSuccess=true")
