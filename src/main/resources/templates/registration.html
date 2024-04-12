@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <title>Registration</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+	<title>Registration</title>
 </head>
 <body>
 
@@ -31,17 +34,10 @@
     <div class="container">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-
-				<!-- success message -->
-				<div th:if="${param.success}">
-					<div class="alert alert-info">You've successfully registered
-						to Wallet Management!</div>
-				</div>
-
+				<br>
+				<br>
 				<!-- error message -->
-				<div th:if="${param.error}">
-					<div class="alert alert-danger">Email already in use.</div>
-				</div>
+				<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
 				<h1>Registration</h1>
 
@@ -68,6 +64,12 @@
 						<label class="control-label" for="password"> Password </label> <input
 							id="password" class="form-control" type="password"
 							th:field="*{password}" required autofocus="autofocus" />
+							<button id="showPassword" type="button" class="btn btn-sm btn-success">Show Password</button>					</div>
+
+					<div class="form-group">
+						<label class="control-label" for="confirmPassword"> Confirm Password </label> <input
+							id="confirmPassword" class="form-control" type="password"
+							th:field="*{confirmPassword}" required autofocus="autofocus" />
 					</div>
 
 					<div class="form-group" style="display: flex; justify-content: space-between;">
@@ -79,5 +81,26 @@
 		</div>
 	</div>
     
+
+
+	<script>
+		const passwordField = document.getElementById("password");
+		const showPasswordText = document.getElementById("showPassword");
+	
+		showPasswordText.addEventListener("click", function() {
+			if (passwordField.type === "password") {
+				passwordField.type = "text";
+				showPasswordText.textContent = "Hide Password";
+				showPasswordText.classList.remove("btn-success");
+				showPasswordText.classList.add("btn-danger");
+			} else {
+				passwordField.type = "password";
+				showPasswordText.textContent = "Show Password";
+				showPasswordText.classList.remove("btn-danger");
+				showPasswordText.classList.add("btn-success");
+			}
+		});
+	</script>
+	
 </body>
 </html>

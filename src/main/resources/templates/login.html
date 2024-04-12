@@ -32,6 +32,12 @@
 				
 				<h1> User Login Page </h1>
 				<form th:action="@{/login}" method="post">
+
+					<!-- registration success message -->
+					<div th:if="${param.success}">
+						<div class="alert alert-info">You've successfully registered
+							to Wallet Management! Please log in with your information.</div>
+					</div>
 					
 					<!-- error message -->
 					<div th:if="${param.error}">
@@ -54,6 +60,7 @@
 						<label for="password">Password</label>: <input type="password"
 							id="password" name="password" class="form-control"
 							placeholder="Enter Password" />
+							<button id="showPassword" type="button" class="btn btn-sm btn-success">Show Password</button>
 					</div>
 					
 					<div class="form-group">
@@ -75,5 +82,24 @@
 		</div>
 	</div>
     
+
+	<script>
+		const passwordField = document.getElementById("password");
+		const showPasswordText = document.getElementById("showPassword");
+	
+		showPasswordText.addEventListener("click", function() {
+			if (passwordField.type === "password") {
+				passwordField.type = "text";
+				showPasswordText.textContent = "Hide Password";
+				showPasswordText.classList.remove("btn-success");
+				showPasswordText.classList.add("btn-danger");
+			} else {
+				passwordField.type = "password";
+				showPasswordText.textContent = "Show Password";
+				showPasswordText.classList.remove("btn-danger");
+				showPasswordText.classList.add("btn-success");
+			}
+		});
+	</script>
 </body>
 </html>

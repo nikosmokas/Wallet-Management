@@ -46,7 +46,7 @@ public class MainController {
         } else {
             // Authentication failed, return error message to the login page
             model.addAttribute("error", "Invalid email or password");
-            return "redirect:/";
+            return "redirect:/login?error";
         }
     }
 

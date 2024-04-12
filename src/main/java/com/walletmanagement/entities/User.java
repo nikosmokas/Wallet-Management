@@ -2,7 +2,6 @@ package com.walletmanagement.entities;
 
 import java.util.Collection;
 
-import org.springframework.lang.NonNull;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,7 +15,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotBlank;
 
 
 @Entity
@@ -33,12 +31,12 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-
+    @Column(name = "email")
     private String email;
 
-    @NonNull
-    @NotBlank(message = "New password is mandatory")
+
     private String password;
+
 
     //RELATION WITH ROLES
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -115,6 +113,4 @@ public class User {
     public Collection<Role> getRoles() {
         return roles;
     }
-
-    
 }
