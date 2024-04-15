@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <title>Wallet Management</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+  </head>
+  <body>
+    <!-- create navigation bar (header) -->
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <br />
+    <br />
+
+    <!-- Create HTML registration form -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <br />
+          <br />
+          <!-- error message -->
+          <div
+            th:if="${error}"
+            class="alert alert-danger"
+            th:text="${error}"
+          ></div>
+
+          <h1>New Wallet</h1>
+
+          <br />
+          <br />
+
+          <form
+            th:action="@{/wallet/walletCreationForm}"
+            method="post"
+            th:object="${wallet}"
+          >
+            <div class="form-group">
+              <label class="control-label" for="walletName">
+                Wallet Name
+              </label>
+              <input
+                id="walletName"
+                class="form-control"
+                th:field="*{walletName}"
+                required
+                autofocus="autofocus"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="currency">Currency</label>
+              <select
+                id="currency"
+                class="form-control"
+                th:field="*{currency}"
+                required
+                autofocus="autofocus"
+              >
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+                <option value="GBP">GBP</option>
+                <option value="JPY">JPY</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="amount"> Initial Amount </label>
+              <input
+                id="initialAmount"
+                class="form-control"
+                th:field="*{amount}"
+                required
+                autofocus="autofocus"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="notes">
+                Notes (Optional)
+              </label>
+              <input
+                id="notes"
+                class="form-control"
+                th:field="*{notes}"
+                autofocus="autofocus"
+              />
+            </div>
+
+            <div
+              class="form-group"
+              style="display: flex; justify-content: space-between"
+            >
+              <button type="submit" class="btn btn-success">Create</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,5 +1,7 @@
 package com.walletmanagement.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,14 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.walletmanagement.entities.User;
+import com.walletmanagement.entities.Wallet;
 import com.walletmanagement.repository.UserRepository;
+import com.walletmanagement.repository.WalletRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MainController {
+
+    @Autowired
+    private WalletRepository walletRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -30,7 +36,7 @@ public class MainController {
 
 
     @GetMapping("/")
-    public String home(Model model, HttpSession session) {
+    public String home(Model model) {
          // Retrieve authenticated user's details
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
@@ -39,6 +45,9 @@ public class MainController {
                 String email = ((UserDetails) principal).getUsername();
                 User user = userRepository.findByEmail(email);
                 model.addAttribute("firstName", "Welcome, " + user.getFirstName() + "!");
+                // Retrieve the authenticated user's wallets and add them to the model
+                List<Wallet> userWallets = walletRepository.findByUserId(user.getId());
+                model.addAttribute("authenticatedUserWallets", userWallets);
             } else {
                 model.addAttribute("firstName", "Welcome!");
             }
