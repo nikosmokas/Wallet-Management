@@ -4,6 +4,9 @@
   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity"
 >
   <head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
@@ -23,7 +26,7 @@
   </head>
   <body>
     <!-- create navigation bar ( header) -->
-    <div th:replace="fragments/navbar :: navbar"></div>    
+    <div th:replace="~{fragments/navbar :: navbar}"></div>    
 
     <br />
     <br />
@@ -35,47 +38,148 @@
       <br />
       <br />
       <hr />
-      <div class="container">
-        <div class="row">
+      <div sec:authorize="isAuthenticated()">
+        <div class="container">
+          <div class="row">
             <!-- Iterate over authenticated user's wallets -->
             <div th:each="wallet : ${authenticatedUserWallets}" class="col-md-6">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title" th:text="${wallet.walletName}"></h3>
-                    </div>
-                    <div class="panel-body">
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Amount:</th>
-                                    <td><span th:text="${wallet.amount}"></span>
-                                      <span th:text="${wallet.currency}"></span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Notes:</th>
-                                    <td><span th:text="${wallet.notes}"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title" th:text="${wallet.walletName}"></h3>
                 </div>
-            </div>
-        </div>
-    </div>
-    
-        <hr>
-     
+                <div class="panel-body">
+                  <table class="table table-striped">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Amount:</th>
+                          <td><span th:text="${wallet.amount}"></span>
+                          <span th:text="${wallet.currency}"></span></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Notes:</th>
+                            <td><span th:text="${wallet.notes}"></span></td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Buttons for income and expense -->
+                <div class="panel-footer text-right">
+                  <!-- Button to trigger income modal -->
+                  <button type="button" class="btn btn-success" data-toggle="modal" th:data-target="'#incomeModal-' + ${wallet.id}">
+                    Income
+                  </button>
+                  
+                  <!-- Modal -->
+                  <div class="modal fade" th:id="'incomeModal-' + ${wallet.id}" tabindex="-1" role="dialog" aria-labelledby="incomeModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">    
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h3 class="modal-title text-left" id="incomeModalTitle">Income entry</h3>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="form-group row">
+                              <label for="incomeAmount" class="col-sm-3 col-form-label">Amount:</label>
+                              <div class="col-sm-9">
+                                <input type="text" class="form-control" id="incomeAmount" name="incomeAmount">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="incomeType" class="col-sm-3 col-form-label">Type of Income:</label>
+                              <div class="col-sm-9">
+                                <select class="form-control" id="incomeType" name="incomeType">
+                                  <option value="salary">Salary</option>
+                                  <option value="bonus">Bonus</option>
+                                  <option value="investment">Investment</option>
+                                </select>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" th:id="'saveIncomeEntryButton-' + ${wallet.id}" th:attr="data-wallet-id=${wallet.id}">Save entry</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-        <div class="button-container"></div>
-        <a href="#" th:href="@{/wallet/walletCreationForm}" class="btn btn-primary">Create wallet</a>
-        
+
+
+
+
+                  <!-- Button to trigger expense modal -->
+                  <button type="button" class="btn btn-danger" data-toggle="modal" th:data-target="'#expenseModal-' + ${wallet.id}">
+                    Expense
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal fade" th:id="'expenseModal-' + ${wallet.id}" tabindex="-1" role="dialog" aria-labelledby="expenseModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">                       
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h3 class="modal-title text-left" id="expenseModalTitle">Expense entry</h3>
+                        </div>
+                        <div class="modal-body">
+                           <!-- Debugging output -->
+                          <div th:if="${wallet == null}">
+                            Wallet object is null!
+                          </div>
+                          <div th:if="${wallet != null}">
+                            Wallet ID: <span th:text="${wallet.id}"></span>
+                          </div>
+
+                          
+                          <form>
+                            <div class="form-group row">
+                              <label for="expenseAmount" class="col-sm-3 col-form-label">Amount:</label>
+                              <div class="col-sm-9">
+                                <input type="text" class="form-control" id="expenseAmount" name="expenseAmount">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="expenseType" class="col-sm-3 col-form-label">Type of Income:</label>
+                              <div class="col-sm-9">
+                                <select class="form-control" id="expenseType" name="expenseType">
+                                  <option value="food">Food</option>
+                                  <option value="utilities">Utilities</option>
+                                  <option value="rent">Rent</option>
+                                  <option value="transportation">Transportation</option>
+                                  <option value="entertainment">Entertainment</option>
+                                </select>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" th:id="'saveExpenseEntryButton-' + ${wallet.id}" th:attr="data-wallet-id=${wallet.id}">Save entry</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="button-container"></div>
+                <a href="#" th:href="@{/wallet/walletCreationForm}" class="btn btn-primary">Create wallet</a>   
+          </div>
+        </div>
       </div>
+    
+    
+      <hr>
+
       <div sec:authorize="isAnonymous()">
         <div class="button-container">
           <a href="#" th:href="@{/login}" class="btn btn-primary">Login</a>
-          <a href="#" th:href="@{/registration}" class="btn btn-primary"
-            >Register</a
-          >
+          <a href="#" th:href="@{/registration}" class="btn btn-primary">Register</a>
         </div>
       </div>
     </div>
@@ -84,6 +188,97 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+    <script>
+      // Event listener for saveIncomeEntryButton
+      document.querySelectorAll("[id^='saveIncomeEntryButton-']").forEach(function(button) {
+        button.addEventListener("click", function() {
+          var walletId = parseInt(this.getAttribute("data-wallet-id"), 10);
+          var amount = parseInt(document.querySelector("#incomeModal-" + walletId + " #incomeAmount").value, 10);
+          var type = document.querySelector("#incomeModal-" + walletId + " #incomeType").value;
+          console.log("Income Amount:", amount);
+          console.log("Income Type:", type)
+    
+          var transaction = {
+            walletId: walletId,
+            amount: amount,
+            type: type
+          };
+    
+          var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+          var csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+    
+          var headers = {};
+          headers[csrfHeader] = csrfToken;
+    
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/saveIncomeTransaction", true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.setRequestHeader(csrfHeader, csrfToken);
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                $('#incomeModal').modal('hide');
+                location.reload();
+              } else {
+                var error = JSON.parse(xhr.responseText);
+                alert("Error: " + error.message);
+              }
+            }
+          };
+          xhr.send(JSON.stringify(transaction));
+        });
+      });
+    </script>
+    
+    <script>
+      // Event listener for saveExpenseEntryButton
+      document.querySelectorAll("[id^='saveExpenseEntryButton-']").forEach(function(button) {
+        button.addEventListener("click", function() {
+          var walletId = parseInt(this.getAttribute("data-wallet-id"), 10);
+          var amount = parseInt(document.querySelector("#expenseModal-" + walletId + " #expenseAmount").value, 10);
+          var type = document.querySelector("#expenseModal-" + walletId + " #expenseType").value;
+
+          console.log("Income Amount:", amount);
+          console.log("Income Type:", type)
+
+    
+          var transaction = {
+            walletId: walletId,
+            amount: amount,
+            type: type
+          };
+    
+          var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+          var csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+    
+          var headers = {};
+          headers[csrfHeader] = csrfToken;
+    
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/saveExpenseTransaction", true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.setRequestHeader(csrfHeader, csrfToken);
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                $('#expenseModal').modal('hide');
+                location.reload();
+              } else {
+                var error = JSON.parse(xhr.responseText);
+                alert("Error: " + error.message);
+              }
+            }
+          };
+          xhr.send(JSON.stringify(transaction));
+        });
+      });
+    </script>
+    
+    
+
+
 
   </body>
 </html>

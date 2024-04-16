@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.walletmanagement.entities.User;
 import com.walletmanagement.service.WalletService;
@@ -52,7 +51,7 @@ public class WalletController {
     }
 
     @PostMapping("/walletCreationForm")
-    public String createNewWallet(Model model, RedirectAttributes redirectAttributes, @ModelAttribute("wallet") WalletCreationDTO walletCreationDTO) {
+    public String createNewWallet(Model model, @ModelAttribute("wallet") WalletCreationDTO walletCreationDTO) {
         
         
         // Retrieve authenticated user's details
