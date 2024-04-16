@@ -1,5 +1,7 @@
 package com.walletmanagement.web;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Optional;
 
@@ -61,7 +63,11 @@ public class TransactionController {
                 if (optionalWallet.isPresent()) {
                     Wallet wallet = optionalWallet.get();
                     // Update wallet amount
-                    wallet.setAmount(wallet.getAmount() + transactionCreationDTO.getAmount());
+                    DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                    Float formatedAmount = Float.parseFloat(decimalFormat.format(transactionCreationDTO.getAmount()));
+
+
+                    wallet.setAmount(wallet.getAmount() + formatedAmount);
                     walletRepository.save(wallet);
 
                     // Set current date and time
@@ -100,7 +106,13 @@ public class TransactionController {
                 if (optionalWallet.isPresent()) {
                     Wallet wallet = optionalWallet.get();
                     // Update wallet amount
-                    wallet.setAmount(wallet.getAmount() - transactionCreationDTO.getAmount());
+                    DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+                    BigDecimal walletAmount = BigDecimal.valueOf(wallet.getAmount());
+                    BigDecimal formatedAmount = BigDecimal.valueOf(Float.parseFloat(decimalFormat.format(transactionCreationDTO.getAmount())));
+                    BigDecimal result = walletAmount.subtract(formatedAmount);
+
+                    wallet.setAmount(result.floatValue());
                     walletRepository.save(wallet);
 
                     // Set current date and time

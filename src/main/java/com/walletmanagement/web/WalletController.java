@@ -1,5 +1,7 @@
 package com.walletmanagement.web;
 
+import java.text.DecimalFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -62,6 +64,8 @@ public class WalletController {
                 String email = ((UserDetails) principal).getUsername();
                 User user = userRepository.findByEmail(email);
                 walletCreationDTO.setUserId(user.getId());
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                walletCreationDTO.setAmount(Float.parseFloat(decimalFormat.format(walletCreationDTO.getAmount())));
                 walletService.save(walletCreationDTO);
                 return "redirect:/wallet/walletSuccess";
             }

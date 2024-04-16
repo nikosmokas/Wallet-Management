@@ -26,7 +26,7 @@ public class Wallet {
     private String currency;
 
     @Column(name = "amount")
-    private Long amount;
+    private Float amount;
 
 
     @Column(name = "notes")
@@ -43,7 +43,7 @@ public class Wallet {
 
     
 
-    public Wallet(String walletName, String currency, Long amount, String notes, Long userId) {
+    public Wallet(String walletName, String currency, Float amount, String notes, Long userId) {
         this.walletName = walletName;
         this.currency = currency;
         this.amount = amount;
@@ -77,11 +77,11 @@ public class Wallet {
         this.currency = currency;
     }
 
-    public Long getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 

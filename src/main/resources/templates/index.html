@@ -84,7 +84,7 @@
                             <div class="form-group row">
                               <label for="incomeAmount" class="col-sm-3 col-form-label">Amount:</label>
                               <div class="col-sm-9">
-                                <input type="text" class="form-control" id="incomeAmount" name="incomeAmount">
+                                <input type="text" class="form-control" id="incomeAmount" name="incomeAmount" required>
                               </div>
                             </div>
                             <div class="form-group row">
@@ -139,7 +139,7 @@
                             <div class="form-group row">
                               <label for="expenseAmount" class="col-sm-3 col-form-label">Amount:</label>
                               <div class="col-sm-9">
-                                <input type="text" class="form-control" id="expenseAmount" name="expenseAmount">
+                                <input type="text" class="form-control" id="expenseAmount" name="expenseAmount" required>
                               </div>
                             </div>
                             <div class="form-group row">
@@ -195,7 +195,12 @@
       document.querySelectorAll("[id^='saveIncomeEntryButton-']").forEach(function(button) {
         button.addEventListener("click", function() {
           var walletId = parseInt(this.getAttribute("data-wallet-id"), 10);
-          var amount = parseInt(document.querySelector("#incomeModal-" + walletId + " #incomeAmount").value, 10);
+          var amount = parseFloat(document.querySelector("#incomeModal-" + walletId + " #incomeAmount").value, 10);
+          if (isNaN(amount) || amount <= 0) {
+              alert("Please enter a valid positive number for the amount.");
+              amountInput.focus();
+              return;
+          }
           var type = document.querySelector("#incomeModal-" + walletId + " #incomeType").value;
           console.log("Income Amount:", amount);
           console.log("Income Type:", type)
@@ -237,9 +242,13 @@
       document.querySelectorAll("[id^='saveExpenseEntryButton-']").forEach(function(button) {
         button.addEventListener("click", function() {
           var walletId = parseInt(this.getAttribute("data-wallet-id"), 10);
-          var amount = parseInt(document.querySelector("#expenseModal-" + walletId + " #expenseAmount").value, 10);
+          var amount = parseFloat(document.querySelector("#expenseModal-" + walletId + " #expenseAmount").value, 10);
           var type = document.querySelector("#expenseModal-" + walletId + " #expenseType").value;
-
+          if (isNaN(amount) || amount <= 0) {
+              alert("Please enter a valid positive number for the amount.");
+              amountInput.focus();
+              return;
+          }
           console.log("Income Amount:", amount);
           console.log("Income Type:", type)
 

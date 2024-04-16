@@ -3,7 +3,7 @@ package com.walletmanagement.web.dto;
 import java.util.Date;
 
 public class TransactionCreationDTO {
-    private Long amount;
+    private Float amount;
     private String type;
     private Long walletId;
     private Date date;
@@ -16,7 +16,7 @@ public class TransactionCreationDTO {
     
 
 
-    public TransactionCreationDTO(Long amount, String type, Long walletId, Date date) {
+    public TransactionCreationDTO(Float amount, String type, Long walletId, Date date) {
         this.amount = amount;
         this.type = type;
         this.walletId = walletId;
@@ -26,12 +26,12 @@ public class TransactionCreationDTO {
 
 
 
-    public Long getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
 
-    public void setAmount(Long amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 

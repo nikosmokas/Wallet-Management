@@ -21,7 +21,7 @@ public class Transaction {
     private Long id;
 
     @Column(name = "amount")
-    private Long amount;
+    private Float amount;
 
 
     @Column(name = "type")
@@ -39,7 +39,7 @@ public class Transaction {
         
     }
 
-    public Transaction(Long amount, String type, Long walletId, Date transactionDate) {
+    public Transaction(Float amount, String type, Long walletId, Date transactionDate) {
         this.amount = amount;
         this.type = type;
         this.walletId = walletId;
@@ -56,12 +56,12 @@ public class Transaction {
     }
 
 
-    public Long getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
 
-    public void setAmount(Long amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 

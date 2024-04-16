@@ -15,7 +15,7 @@ public class TransactionServiceImp implements TransactionService{
 
     @Override
     public Transaction save(TransactionCreationDTO transactionCreationDTO) {
-        Transaction trans = new Transaction(transactionCreationDTO.getAmount(), transactionCreationDTO.getNotes(), transactionCreationDTO.getWalletId(), transactionCreationDTO.getDate());
+        Transaction trans = new Transaction(transactionCreationDTO.getAmount(), transactionCreationDTO.getType(), transactionCreationDTO.getWalletId(), transactionCreationDTO.getDate());
 
         return transactionRepository.save(trans);
     }

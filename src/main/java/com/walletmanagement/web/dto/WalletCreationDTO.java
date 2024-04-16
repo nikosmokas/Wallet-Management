@@ -3,7 +3,7 @@ package com.walletmanagement.web.dto;
 public class WalletCreationDTO {
     private String walletName;
     private String currency;
-    private Long amount;
+    private Float amount;
     private String notes;
     private Long userId;
 
@@ -15,7 +15,7 @@ public class WalletCreationDTO {
     
 
 
-    public WalletCreationDTO(String walletName, String currency, Long amount, String notes, Long userId) {
+    public WalletCreationDTO(String walletName, String currency, Float amount, String notes, Long userId) {
         this.walletName = walletName;
         this.currency = currency;
         this.amount = amount;
@@ -46,12 +46,12 @@ public class WalletCreationDTO {
     }
 
 
-    public Long getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
 
-    public void setAmount(Long amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 
