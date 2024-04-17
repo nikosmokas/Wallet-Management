@@ -73,6 +73,7 @@ public class TransactionController {
                     // Set current date and time
                     Date currentDateAndTime = new Date();
                     transactionCreationDTO.setDate(currentDateAndTime);
+                    transactionCreationDTO.setIncome(true);
 
                     // Save the transaction
                     transactionService.save(transactionCreationDTO);
@@ -117,6 +118,7 @@ public class TransactionController {
 
                     // Set current date and time
                     Date currentDateAndTime = new Date();
+                    transactionCreationDTO.setIncome(false);
                     transactionCreationDTO.setDate(currentDateAndTime);
 
                     // Save the transaction

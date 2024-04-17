@@ -7,6 +7,7 @@ public class TransactionCreationDTO {
     private String type;
     private Long walletId;
     private Date date;
+    private boolean income;
 
 
     public TransactionCreationDTO() {
@@ -16,11 +17,12 @@ public class TransactionCreationDTO {
     
 
 
-    public TransactionCreationDTO(Float amount, String type, Long walletId, Date date) {
+    public TransactionCreationDTO(Float amount, String type, Long walletId, Date date, Boolean income) {
         this.amount = amount;
         this.type = type;
         this.walletId = walletId;
         this.date = date;
+        this.income = income;
     }
 
 
@@ -63,5 +65,21 @@ public class TransactionCreationDTO {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+
+
+
+    public boolean isIncome() {
+        return income;
+    }
+
+
+
+
+    public void setIncome(boolean income) {
+        this.income = income;
     }  
+
+    
 }

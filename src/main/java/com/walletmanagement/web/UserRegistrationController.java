@@ -42,7 +42,7 @@ public class UserRegistrationController {
 
         String errorMsg ="";
         if (!isValidPassword(password)) {
-            errorMsg = "Password must contain at least one letter and one digit, and be between 8 and 20 characters long.";
+            errorMsg = "Password must contain at least one letter, one special character and one digit, and be between 8 and 20 characters long.";
             redirectAttributes.addFlashAttribute("error", errorMsg);
             return "redirect:/registration";
         }
@@ -75,7 +75,7 @@ public class UserRegistrationController {
 
     private boolean isValidPassword(String password) {
         // Password must contain at least one letter and one digit, and be between 8 and 20 characters long.
-        String pattern = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}$";
+        String pattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?!.*\\s).{8,20}$";
         return password.matches(pattern);
     }
 

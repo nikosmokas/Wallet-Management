@@ -61,7 +61,43 @@
                         </tr>
                     </tbody>
                   </table>
+
+                  <!-- Display last transaction -->
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <div class="row">
+                          <div class="col-sm-6">
+                              <h3 class="panel-title">Last Transaction</h3>
+                          </div>
+                          <div class="col-sm-6">
+                              <h3 class="panel-title text-right">
+                                  <span th:if="${lastTransactions[wallet.id] != null}" th:text="${lastTransactions[wallet.id].income ? 'Income' : 'Expense'}" th:class="${lastTransactions[wallet.id] != null and lastTransactions[wallet.id].income ? 'text-success' : 'text-danger'}"></span>
+                              </h3>
+                          </div>
+                      </div>
+                  </div>
+                    <div class="panel-body">
+                      <div class="row">
+                          <div class="col-sm-6">
+                              <p th:if="${lastTransactions[wallet.id] != null}" class="amount-info">
+                                  Amount: <span th:text="${lastTransactions[wallet.id].amount}"></span> <span th:text="${wallet.currency}"></span>
+                              </p>
+                          </div>
+                          <div class="col-sm-6">
+                              <p th:if="${lastTransactions[wallet.id] != null}" class="type-info text-right">
+                                  Type: <span th:text="${lastTransactions[wallet.id].type}"></span>
+                              </p>
+                          </div>
+                      </div>
+                      <p th:if="${lastTransactions[wallet.id] == null}">
+                          No transactions found.
+                      </p>
+                  </div>
+                  
+                  </div>
                 </div>
+
+
                 <!-- Buttons for income and expense -->
                 <div class="panel-footer text-right">
                   <!-- Button to trigger income modal -->
@@ -126,15 +162,6 @@
                           <h3 class="modal-title text-left" id="expenseModalTitle">Expense entry</h3>
                         </div>
                         <div class="modal-body">
-                           <!-- Debugging output -->
-                          <div th:if="${wallet == null}">
-                            Wallet object is null!
-                          </div>
-                          <div th:if="${wallet != null}">
-                            Wallet ID: <span th:text="${wallet.id}"></span>
-                          </div>
-
-                          
                           <form>
                             <div class="form-group row">
                               <label for="expenseAmount" class="col-sm-3 col-form-label">Amount:</label>
@@ -167,9 +194,10 @@
                 </div>
               </div>
             </div>
-            <div class="button-container"></div>
-                <a href="#" th:href="@{/wallet/walletCreationForm}" class="btn btn-primary">Create wallet</a>   
+  
           </div>
+          <div class="button-container"></div>
+                <a href="#" th:href="@{/wallet/walletCreationForm}" class="btn btn-primary">Create wallet</a>
         </div>
       </div>
     

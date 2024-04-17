@@ -1,5 +1,7 @@
 package com.walletmanagement.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +17,14 @@ public class TransactionServiceImp implements TransactionService{
 
     @Override
     public Transaction save(TransactionCreationDTO transactionCreationDTO) {
-        Transaction trans = new Transaction(transactionCreationDTO.getAmount(), transactionCreationDTO.getType(), transactionCreationDTO.getWalletId(), transactionCreationDTO.getDate());
+        Transaction trans = new Transaction(transactionCreationDTO.getAmount(), transactionCreationDTO.getType(), transactionCreationDTO.getWalletId(), transactionCreationDTO.getDate(), transactionCreationDTO.isIncome());
 
         return transactionRepository.save(trans);
+    }
+
+    @Override
+    public Optional<Transaction> getLastTransactionForWallet(Long walletId) {
+        return transactionRepository.findTopByWalletIdOrderByTransactionDateDesc(walletId);
     }
     
 }

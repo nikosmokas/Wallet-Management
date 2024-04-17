@@ -33,17 +33,21 @@ public class Transaction {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "transaction_date")
     private Date transactionDate;
+
+    @Column(name = "income")
+    private boolean income;
     
 
     public Transaction() {
         
     }
 
-    public Transaction(Float amount, String type, Long walletId, Date transactionDate) {
+    public Transaction(Float amount, String type, Long walletId, Date transactionDate, Boolean income) {
         this.amount = amount;
         this.type = type;
         this.walletId = walletId;
         this.transactionDate = transactionDate;
+        this.income = income;
     }
 
     public Long getId() {
@@ -97,6 +101,14 @@ public class Transaction {
 
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public boolean isIncome() {
+        return income;
+    }
+
+    public void setIncome(boolean income) {
+        this.income = income;
     }
 
     
