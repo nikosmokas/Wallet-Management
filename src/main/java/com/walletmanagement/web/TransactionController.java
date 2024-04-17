@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.walletmanagement.entities.User;
 import com.walletmanagement.entities.Wallet;
 import com.walletmanagement.service.TransactionService;
-import com.walletmanagement.service.WalletService;
 import com.walletmanagement.web.dto.TransactionCreationDTO;
-import com.walletmanagement.repository.UserRepository;
 import com.walletmanagement.repository.WalletRepository;
 
 
@@ -28,14 +25,11 @@ import com.walletmanagement.repository.WalletRepository;
 @Controller
 public class TransactionController {
 
-    @Autowired
-    private UserRepository userRepository;
+
 
     @Autowired
     private WalletRepository walletRepository;
 
-    @Autowired
-    private WalletService walletService;
     
     @Autowired
     private TransactionService transactionService;
@@ -56,9 +50,6 @@ public class TransactionController {
         if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
             if (principal instanceof UserDetails) {
-                String email = ((UserDetails) principal).getUsername();
-                User user = userRepository.findByEmail(email);
-
                 Optional<Wallet> optionalWallet = walletRepository.findById(transactionCreationDTO.getWalletId());
                 if (optionalWallet.isPresent()) {
                     Wallet wallet = optionalWallet.get();
@@ -100,8 +91,7 @@ public class TransactionController {
         if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
             if (principal instanceof UserDetails) {
-                String email = ((UserDetails) principal).getUsername();
-                User user = userRepository.findByEmail(email);
+
 
                 Optional<Wallet> optionalWallet = walletRepository.findById(transactionCreationDTO.getWalletId());
                 if (optionalWallet.isPresent()) {

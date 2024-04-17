@@ -20,7 +20,6 @@ import com.walletmanagement.entities.Wallet;
 import com.walletmanagement.repository.UserRepository;
 import com.walletmanagement.repository.WalletRepository;
 import com.walletmanagement.service.TransactionService;
-import com.walletmanagement.service.TransactionServiceImp;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
