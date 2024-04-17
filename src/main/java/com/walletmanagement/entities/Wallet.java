@@ -33,7 +33,7 @@ public class Wallet {
     private String notes;
 
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "users_id", nullable = false)
     private Long userId;
 
 
