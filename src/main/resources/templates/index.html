@@ -225,7 +225,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-
+  
     <script>
       // Event listener for saveIncomeEntryButton
       document.querySelectorAll("[id^='saveIncomeEntryButton-']").forEach(function(button) {
@@ -252,9 +252,22 @@
     
           var headers = {};
           headers[csrfHeader] = csrfToken;
+
+          // Check if the application is running on the server or locally
+          var isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+
+          // Define the base URL
+          var baseUrl = isLocal ? "" : window.location.origin + window.location.pathname;
+          var contextPath = isLocal ? "" : baseUrl.substring(0, baseUrl.lastIndexOf("/")) + "/";
+
+          // Construct the full URL for saveIncomeTransaction
+          var saveIncomeTransactionUrl = contextPath + "saveIncomeTransaction";
+
+          // Use saveIncomeTransactionUrl in your XHR request
+
     
           var xhr = new XMLHttpRequest();
-          xhr.open("POST", "/saveIncomeTransaction", true);
+          xhr.open("POST", saveIncomeTransactionUrl, true);
           xhr.setRequestHeader("Content-Type", "application/json");
           xhr.setRequestHeader(csrfHeader, csrfToken);
           xhr.onreadystatechange = function() {
@@ -300,9 +313,22 @@
     
           var headers = {};
           headers[csrfHeader] = csrfToken;
+
+           // Check if the application is running on the server or locally
+           var isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+
+          // Define the base URL
+            var baseUrl = isLocal ? "" : window.location.origin + window.location.pathname;
+            var contextPath = isLocal ? "" : baseUrl.substring(0, baseUrl.lastIndexOf("/")) + "/";
+
+            // Construct the full URL for saveIncomeTransaction
+            var saveExpenseTransactionUrl = contextPath + "saveExpenseTransaction";
+
+            // Use saveIncomeTransactionUrl in your XHR request
+
     
           var xhr = new XMLHttpRequest();
-          xhr.open("POST", "/saveExpenseTransaction", true);
+          xhr.open("POST", saveExpenseTransactionUrl, true);
           xhr.setRequestHeader("Content-Type", "application/json");
           xhr.setRequestHeader(csrfHeader, csrfToken);
           xhr.onreadystatechange = function() {
