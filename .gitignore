@@ -37,3 +37,4 @@ application.properties
 
 # Ignore spring-boot-app.log file
 spring-boot-app.log
+src/main/resources/application.properties
