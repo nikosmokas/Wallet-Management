@@ -11,6 +11,7 @@ public interface TransactionService {
 
     Transaction save(TransactionCreationDTO transactionDTO);
     public Optional<Transaction> getLastTransactionForWallet(Long walletId);
+    void deleteTransactionsOfWallet(Long walletId);
 
     
 }

@@ -26,5 +26,11 @@ public class TransactionServiceImp implements TransactionService{
     public Optional<Transaction> getLastTransactionForWallet(Long walletId) {
         return transactionRepository.findTopByWalletIdOrderByTransactionDateDesc(walletId);
     }
+
+    @Override
+    public void deleteTransactionsOfWallet(Long walletId) {
+        transactionRepository.deleteByWalletId(walletId);
+    }
+
     
 }

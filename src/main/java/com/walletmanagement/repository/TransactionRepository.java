@@ -13,4 +13,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     
     List<Transaction> findByWalletId(Long walletId);
     Optional<Transaction> findTopByWalletIdOrderByTransactionDateDesc(Long walletId);
+    void deleteByWalletId(Long walletId);
 }

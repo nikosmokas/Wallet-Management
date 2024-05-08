@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.walletmanagement.entities.User;
 import com.walletmanagement.service.WalletService;
@@ -57,7 +58,7 @@ public class WalletController {
     }
 
     @PostMapping("/walletCreationForm")
-    public String createNewWallet(Model model, @ModelAttribute("wallet") WalletCreationDTO walletCreationDTO) {
+    public String createNewWallet(Model model, @ModelAttribute("wallet") WalletCreationDTO walletCreationDTO, RedirectAttributes redirectAttributes) {
         
         
         // Retrieve authenticated user's details
@@ -71,7 +72,9 @@ public class WalletController {
                 DecimalFormat decimalFormat = new DecimalFormat("#.##");
                 walletCreationDTO.setAmount(Float.parseFloat(decimalFormat.format(walletCreationDTO.getAmount())));
                 walletService.save(walletCreationDTO);
-                return "redirect:/wallet/walletSuccess";
+                // Add success message to be displayed in the success modal
+                redirectAttributes.addFlashAttribute("successMessage", "Wallet added to your profile!");
+                return "redirect:/";
             }
             else {
                 return "redirect:/wallet/walletFail";

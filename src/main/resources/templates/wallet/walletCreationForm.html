@@ -114,5 +114,41 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal Popup -->
+    <div id="successModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+            <h4 class="modal-title">Success</h4>
+          </div>
+          <div class="modal-body">
+            <p>Wallet added to your profile!</p>
+          </div>
+          <div class="modal-footer">
+            <!-- Add button to close modal -->
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript to automatically open modal and redirect after 3 seconds -->
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      // Check if the success message is present in the flash attributes
+      var successMessage = /*[[${successMessage}]]*/ "";
+      if (successMessage) {
+        // Display the success message in a popup
+        alert(successMessage);
+      }
+      /*]]>*/
+    </script>
   </body>
 </html>
