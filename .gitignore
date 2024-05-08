@@ -35,5 +35,5 @@ build/
 
 
 # Ignore spring-boot-app.log file
-src/main/resources/spring-boot-app.log
+spring-boot-app.log
 src/main/resources/application.properties
