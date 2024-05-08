@@ -32,9 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
-# Ignore application.properties file
-application.properties
+
 
 # Ignore spring-boot-app.log file
-spring-boot-app.log
+src/main/resources/spring-boot-app.log
 src/main/resources/application.properties
