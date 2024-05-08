@@ -45,7 +45,15 @@
             <div th:each="wallet : ${authenticatedUserWallets}" class="col-md-6">
               <div class="panel panel-primary">
                 <div class="panel-heading">
-                  <h3 class="panel-title" th:text="${wallet.walletName}"></h3>
+                  <div class="row">
+                      <div class="col-xs-8">
+                          <h3 class="panel-title" th:text="${wallet.walletName}"></h3>
+                      </div>
+                      <div class="col-xs-4 text-right">
+                          <!-- Button to delete the wallet -->
+                          <button type="button" class="btn btn-xs btn-danger" th:id="'deleteWalletButton-' + ${wallet.id}" th:attr="data-wallet-id=${wallet.id}"> X </button>
+                        </div>
+                  </div>
                 </div>
                 <div class="panel-body">
                   <table class="table table-striped">
@@ -137,7 +145,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" th:id="'saveIncomeEntryButton-' + ${wallet.id}" th:attr="data-wallet-id=${wallet.id}">Save entry</button>
+                          <button type="button" class="btn btn-primary" th:id="'saveIncomeEntryButton-' + ${wallet.id}" th:attr="data-wallet-id=${wallet.id}">Save</button>
                         </div>
                       </div>
                     </div>
@@ -185,7 +193,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" th:id="'saveExpenseEntryButton-' + ${wallet.id}" th:attr="data-wallet-id=${wallet.id}">Save entry</button>
+                          <button type="button" class="btn btn-primary" th:id="'saveExpenseEntryButton-' + ${wallet.id}" th:attr="data-wallet-id=${wallet.id}">Save</button>
                         </div>
                       </div>
                     </div>
@@ -312,6 +320,47 @@
         });
       });
     </script>
+
+<script>
+  // Event listener for deleteWalletButton
+  document.querySelectorAll("[id^='deleteWalletButton-']").forEach(function(button) {
+      button.addEventListener("click", function() {
+          var walletId = parseInt(button.getAttribute("data-wallet-id"), 10); // Extract the wallet ID from the button's data attribute
+
+
+          var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+          var csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+    
+          var headers = {};
+          headers[csrfHeader] = csrfToken;
+
+          // Send an AJAX request to delete the wallet
+          var xhr = new XMLHttpRequest();
+          xhr.open("DELETE", "wallet/deleteWallet/" + walletId, true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.setRequestHeader(csrfHeader, csrfToken);
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === 4) {
+                  if (xhr.status === 200) {
+                      // Handle success response
+                      console.log("Wallet deleted successfully.");
+                      location.reload(); // Reload the page after deleting the wallet
+                  } else {
+                      // Handle error response
+                      console.error("Error deleting wallet:", xhr.responseText);
+                      alert("Error deleting wallet. Please try again.");
+                  }
+              }
+          };
+          xhr.send();
+      });
+  });
+</script>
+
+
+
+
+
     
     
 

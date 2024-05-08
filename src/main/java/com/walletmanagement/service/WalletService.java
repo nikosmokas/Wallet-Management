@@ -7,5 +7,6 @@ import com.walletmanagement.web.dto.WalletCreationDTO;
 public interface WalletService {
 
     Wallet save(WalletCreationDTO walletCreationDTO);
+    public void deleteWallet(Long walletId);
     
 }

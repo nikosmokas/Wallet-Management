@@ -19,5 +19,9 @@ public class WalletServiceImp implements WalletService{
 
         return walletRepository.save(wallet);
     }
+
+    public void deleteWallet(Long walletId) {
+        walletRepository.deleteById(walletId);
+    }
     
 }
