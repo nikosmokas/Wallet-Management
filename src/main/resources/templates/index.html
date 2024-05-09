@@ -314,17 +314,10 @@
           var headers = {};
           headers[csrfHeader] = csrfToken;
 
-           // Check if the application is running on the server or locally
-           var isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-
-          // Define the base URL
-            var baseUrl = isLocal ? "" : window.location.origin + window.location.pathname;
-            var contextPath = isLocal ? "" : baseUrl.substring(0, baseUrl.lastIndexOf("/")) + "/";
-
-            // Construct the full URL for saveIncomeTransaction
-            var saveExpenseTransactionUrl = contextPath + "saveExpenseTransaction";
-
-            // Use saveIncomeTransactionUrl in your XHR request
+          var isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+          var baseUrl = isLocal ? "" : window.location.origin + window.location.pathname;
+          var contextPath = isLocal ? "" : baseUrl.substring(0, baseUrl.lastIndexOf("/")) + "/";
+          var saveExpenseTransactionUrl = contextPath + "saveExpenseTransaction";
 
     
           var xhr = new XMLHttpRequest();
