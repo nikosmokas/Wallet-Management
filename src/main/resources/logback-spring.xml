@@ -2,7 +2,7 @@
 <configuration>
 
     <!-- Define log file location -->
-    <springProperty scope="context" name="LOG_PATH" source="logging.path" defaultValue="/var/log/wallet-management"/>
+    <springProperty scope="context" name="LOG_PATH" source="logging.path" defaultValue="/home/nmokas/projects/wallet-management"/>
 
      <!-- Console Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
