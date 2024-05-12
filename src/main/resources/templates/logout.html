@@ -13,7 +13,7 @@
 </head>
 <body>
     <!-- create navigation bar ( header) -->
-    <div th:replace="~{fragments/navbar :: navbar}"></div>   
+   <div th:replace="~{fragments/navbar :: navbar}"></div>   
     <br>
     <br>
     <br>
@@ -23,6 +23,7 @@
         <hr>
         <p class="mb-0">You can <a href="#" th:href="@{/login}">login</a> again if you wish or return to the <a href="#" th:href="@{/}">front-page.</a></p>
     </div>
-</div>
+   </div>
+   <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
