@@ -5,9 +5,7 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: yourdb
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root123
+      MYSQL_DATABASE: yourdb          
     ports:
       - "3306:3306"
     volumes:
