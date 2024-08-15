@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: wallet-management
-          image: wallet-management-app
+          image: wallet-management-app:latest
           ports:
             - containerPort: 8080
           env:
