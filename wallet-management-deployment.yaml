@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: springboot-deployment
+  name: wallet-management-deployment
   namespace: wallet-management
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: springboot
+      app: wallet-management
   template:
     metadata:
       labels:
-        app: springboot
+        app: wallet-management
     spec:
       containers:
-        - name: springboot
+        - name: wallet-management
           image: wallet-management-app
           ports:
             - containerPort: 8080
@@ -37,10 +37,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: springboot-service
+  name: wallet-management-service
   namespace: wallet-management
 spec:
   ports:
     - port: 8080
   selector:
-    app: springboot
+    app: wallet-management
