@@ -32,6 +32,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: root123
     networks:
       - app-network
+    restart: always
 
 volumes:
   mysql-data:
